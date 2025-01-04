@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Inventory Management{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <h1>Welcome to Inventory Management</h1>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('inventory') }}">Inventory</a></li>
+            <li><a href="{{ url_for('sales') }}">Sales</a></li>
+			
+            {% if current_user.is_authenticated %}
+                <!-- Display logout link if the user is logged in -->
+                <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+            {% else %}
+                <!-- Display login link if the user is not logged in -->
+                <!-- <li><a href="{{ url_for('auth.login') }}">Login</a></li> -->
+            {% endif %}			
+        </ul>
+    </nav>
+    
+    <!-- Flash messages section -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <hr>
+
+    {% block content %}{% endblock %}
+</body>
+</html>
+

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Inventory{% endblock %}
+
+{% block content %}
+
+<h1>Add New Item</h1>
+    <!-- Form to add items -->
+    <form action="/add" method="POST">
+        <input type="text" name="name" placeholder="Item Name" required>
+		<input type="text" name="desc" placeholder="Item Description" required>
+        <input type="number" name="quantity" placeholder="Quantity" required>
+        <input type="number" name="price" placeholder="Price" step="0.1" required>
+        <button type="submit">Add Item</button>
+    </form>
+	
+<h1>Inventory</h1>
+
+<!-- Display inventory items -->
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Quantity</th>
+        <th>Price</th>
+		<th>QR Code</th>
+		<th>Action</th>
+    </tr>
+    {% for item in items %}
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.desc }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.price }}</td>
+        <td><img src="/static/qr_codes/item_{{ item.id }}.png" alt="QR Code" width="50"></td>
+		<td>
+            <a href="{{ url_for('edit_item', id=item.id) }}">Edit</a>
+            <a href="{{ url_for('delete_item', id=item.id) }}">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

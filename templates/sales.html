@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Sales{% endblock %}
+
+{% block content %}
+<h1>Sales</h1>
+
+<!-- Display sales records -->
+<table>
+    <tr>
+        <th>Item ID</th>
+        <th>Item Name</th>
+        <th>Quantity Sold</th>
+        <th>Sale Date</th>
+    </tr>
+    {% for sale in sales %}
+    <tr>
+        <td>{{ sale.item_id }}</td>
+        <td>{{ sale.item.name }}</td>
+        <td>{{ sale.quantity_sold }}</td>
+        <td>{{ sale.sale_date }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Sell an Item</h2>
+<div class="form-container">
+    <form method="post" action="{{ url_for('sell_item') }}">
+		<label for="item_id">Select Item:</label>
+		<select id="item_id" name="item_id">
+			{% for item in items %}
+				<option value="{{ item.id }}">{{ item.name }} (Available: {{ item.quantity }})</option>
+			{% endfor %}
+		</select>
+
+		<label for="quantity">Quantity:</label>
+		<input type="number" id="quantity" name="quantity" min="1">
+
+		<button type="submit">Sell Item</button>
+	</form>
+</div>
+{% endblock %}
